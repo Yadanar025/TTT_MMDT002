@@ -27,6 +27,14 @@ class HeuristicAgent:
             game.board[move] = EMPTY
             if won:
                 return move
+        if game.is_valid_move(4):
+            return 4
+        for corner in [0, 2, 6, 8]:
+            if game.is_valid_move(corner):
+                return corner
+        for edge in [1, 3, 5, 7]:
+            if game.is_valid_move(edge):
+                return edge
 
 class MinimaxAgent:
     def __init__(self, player=PLAYER_O,use_alpha_beta=True):
