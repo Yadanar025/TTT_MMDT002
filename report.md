@@ -41,7 +41,7 @@
 
 ## Section 4: Deployed and Presentation Information
 - **Deployment Platform:** Render
-- **Live Deployment URL:** https://ttt-mmdt002.onrender.com
+- **Live Deployment URL:** https://ttt-mmdt002.onrender.com)
 - **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
 
 ---
@@ -49,6 +49,8 @@
 ## Section 5: Discussion
 *Provide your written analysis for each point by replacing the bracket placeholders below:*
 - **Explain how Alpha-Beta pruning reduces the number of evaluated game tree nodes without changing the minimax decision.**
-    [Write your answer here]
+In the Minimax agent, the first player tries to choose the move with the highest score, while the second player tries to choose the move with the lowest score. Alpha is the best score the first player can guarantee so far, while beta is the best score the second player can guarantee so far. As the algorithm explores the game tree, the bounds become tighter. When alpha is greater than or equal to beta, the algorithm stops exploring that branch because it cannot produce a better decision. Alpha-Beta pruning therefore evaluates fewer nodes while producing the same optimal move as standard Minimax, provided both use the same evaluation function and search depth.
+
 - **Compare classical Adversarial Search (Minimax / Alpha-Beta) with modern Tree Search approaches in Generative AI (e.g., Monte Carlo Tree Search, Tree of Thoughts, or Process Reward Models).**
-    [Write your answer here]
+Classical AI uses explicit rules, algorithms, and predefined evaluation functions to search for solutions. It can use Alpha-Beta pruning to preserve the Minimax decision while skipping unnecessary branches. In contrast, modern AI often uses machine learning and LLMs to generate or evaluate solutions. It often faces larger search spaces and uses learned evaluation functions or sampling to guide exploration and improve computational efficiency.
+
