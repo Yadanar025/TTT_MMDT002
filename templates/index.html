@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe AI</title>
+</head>
+<body>
+    <h1>Tic-Tac-Toe AI</h1>
+    <p>Play against your AI agent!</p>
+    <select id="mode">
+    <option value="2player">2 Player Local</option>
+    <option value="random">vs AI (Easy)</option>
+    <option value="heuristic">vs AI (Medium)</option>
+    <option value="minimax">vs AI (Unbeatable)</option>
+</select>
+    <select id="agentX">
+    <option value="random">Random</option>
+    <option value="heuristic">Heuristic</option>
+    <option value="minimax">Minimax</option>
+</select>
+<select id="agentO">
+    <option value="random">Random</option>
+    <option value="heuristic">Heuristic</option>
+    <option value="minimax">Minimax</option>
+</select>
+<button id="startAiVsAi">Start AI vs AI</button>
+    <div id="board">
+        <button data-index="0"></button>
+        <button data-index="1"></button>
+        <button data-index="2"> </button>
+        <button data-index="3"></button>
+        <button data-index="4"></button>
+        <button data-index="5"> </button>
+        <button data-index="6"> </button>
+        <button data-index="7"></button>
+        <button data-index="8"> </button>
+        <script>
+    const buttons = document.querySelectorAll("button");
+    let board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    let currentPlayer = "X";
+    let gameOver = false;
+    function aiStep() {
+    fetch("/ai_move", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            board: board,
+            current_player: currentPlayer,
+            agent_x_type: document.getElementById("agentX").value,
+            agent_o_type: document.getElementById("agentO").value
+        })
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+        board = data.board;
+        currentPlayer = data.current_player;
+        gameOver = data.game_over;
+        redraw();
+        if (!gameOver) {
+            setTimeout(aiStep, 500);
+        } else {
+            alert(data.winner ? data.winner + " wins!" : "Draw!");
+        }
+    });
+    }
+    document.getElementById("startAiVsAi").addEventListener("click", function() {
+    board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    currentPlayer = "X";
+    gameOver = false;
+    redraw();
+    aiStep();
+    });
+    function redraw() {
+        buttons.forEach(function(btn, i) {
+            btn.textContent = board[i] === "" ? " " : board[i];
+        });
+    }
+
+    buttons.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            const move = parseInt(btn.dataset.index);
+            if (board[move] !== " " || gameOver) return;
+
+            const mode = document.getElementById("mode").value;
+            const payload = { board: board, current_player: currentPlayer, move: move };
+            if (mode !== "2player") {
+                payload.agent_type = mode;
+            }
+
+            fetch("/play", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                board = data.board;
+                currentPlayer = data.current_player;
+                gameOver = data.game_over;
+                redraw();
+                if (gameOver) {
+                    alert(data.winner ? data.winner + " wins!" : "Draw!");
+                }
+            });
+        });
+    });
+
+    redraw();
+</script>
+        
+    </div>
+</body>
+</html>

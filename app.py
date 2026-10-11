@@ -1,0 +1,65 @@
+from flask import Flask, render_template, request, jsonify
+import json
+from game import TicTacToe, PLAYER_X, PLAYER_O
+from agent import RandomAgent, HeuristicAgent, MinimaxAgent
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+def create_agent(agent_type, player):
+    if agent_type == "random":
+        return RandomAgent(player)
+    elif agent_type == "heuristic":
+        return HeuristicAgent(player)
+    else:
+        return MinimaxAgent(player)
+
+#send the data to the server and get the responses
+@app.route("/play", methods=["POST"])
+def play():
+    data = request.get_json()
+    board = data.get("board")
+    current_player = data.get("current_player")
+    game = TicTacToe(board=board, current_player=current_player)
+    game.make_move(data.get("move"))
+    over=game.is_game_over()
+    if not over:
+        agent_type = data.get("agent_type")
+        if agent_type:
+            agent_player = PLAYER_O if current_player == PLAYER_X else PLAYER_X
+            agent = create_agent(agent_type, agent_player)
+            agent_move = agent.get_move(game)
+            game.make_move(agent_move)
+    over=game.is_game_over()
+    return jsonify({"board": game.board, 
+                    "current_player": game.current_player,
+                    "winner": game.check_winner(), 
+                    "available_moves": game.get_available_moves(),
+                    "game_over": over})
+
+@app.route("/ai_move", methods=["POST"])
+def ai_move():
+    data = request.get_json()
+    board = data.get("board")
+    current_player = data.get("current_player")
+    game = TicTacToe(board=board, current_player=current_player)
+    over=game.is_game_over()
+    if not over:
+        agent_x_type = data.get("agent_x_type")
+        agent_o_type = data.get("agent_o_type")
+        agent_type = agent_x_type if current_player == PLAYER_X else agent_o_type
+        agent = create_agent(agent_type, current_player)
+        agent_move = agent.get_move(game)
+        game.make_move(agent_move)
+        over=game.is_game_over()
+    return jsonify({"board": game.board, 
+                    "current_player": game.current_player,
+                    "winner": game.check_winner(), 
+                    "available_moves": game.get_available_moves(),
+                    "game_over": over})
+
+if __name__ == "__main__":
+    app.run(debug=True)
