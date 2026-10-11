@@ -41,8 +41,8 @@
 
 ## Section 4: Deployed and Presentation Information
 - **Deployment Platform:** Render
-- **Live Deployment URL:** https://ttt-mmdt002.onrender.com)
-- **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
+- **Live Deployment URL:** https://ttt-mmdt002.onrender.com
+- **Video Presentation Link:** https://drive.google.com/file/d/1rb2GgYt-MJFFp2Ivn_VSPOmgps3CVvSp/view?usp=sharing
 
 ---
 
