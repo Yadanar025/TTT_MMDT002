@@ -32,21 +32,21 @@ class MinimaxAgent:
     def __init__(self, player=PLAYER_O,use_alpha_beta=True):
         self.player = player
         self.opponent_mark = PLAYER_O if self.player == PLAYER_X else PLAYER_X
-        self.alpha_beta = use_alpha_beta
+        self.use_alpha_beta = use_alpha_beta
 
     def get_move(self,game):
         best_score = float('-inf')
         best_move = None
         for move in game.get_available_moves():
             game.make_move(move)
-            score = self.minimax(game, 0, False)
+            score = self.minimax(game, 0, False,float('-inf'), float('inf'))
             game.undo_move(move)
             if score > best_score:
                 best_score = score
                 best_move = move
         return best_move
 
-    def minimax(self, game, depth, maximizing):
+    def minimax(self, game, depth, maximizing,alpha=float('-inf'), beta=float('inf')):
         winner = game.check_winner()
         if winner == self.player:
             return 10 - depth
@@ -59,17 +59,23 @@ class MinimaxAgent:
             best_score = float('-inf')
             for move in game.get_available_moves():
                 game.make_move(move)
-                score = self.minimax(game, depth + 1, False)
+                score = self.minimax(game, depth + 1, False, alpha, beta)
                 game.undo_move(move)
                 best_score = max(best_score, score)
+                alpha = max(alpha, best_score)
+                if self.use_alpha_beta and alpha >= beta:
+                    break
             return best_score
         else:
             best_score = float('inf')
             for move in game.get_available_moves():
                 game.make_move(move)
-                score = self.minimax(game, depth + 1, True)
+                score = self.minimax(game, depth + 1, True, alpha, beta)
                 game.undo_move(move)
                 best_score = min(best_score, score)
+                beta = min(beta, best_score)
+                if self.use_alpha_beta and alpha >= beta:
+                    break
             return best_score
 
 def simulate_match(agent1,agent2, num_games=50):
@@ -90,6 +96,7 @@ def simulate_match(agent1,agent2, num_games=50):
             elif not game.get_available_moves():
                 results['draws'] += 1
                 break
+
             current_agent = agent1 if current_agent == agent2 else agent2
     return results
 

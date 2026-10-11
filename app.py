@@ -60,6 +60,16 @@ def ai_move():
                     "winner": game.check_winner(), 
                     "available_moves": game.get_available_moves(),
                     "game_over": over})
+@app.route("/benchmark", methods=["POST"])
+def benchmark():
+    data = request.get_json()
+    agent1_type = data.get("agent1_type")
+    agent2_type = data.get("agent2_type")
+    num_games = data.get("num_games", 50)
+    agent1 = create_agent(agent1_type, PLAYER_X)
+    agent2 = create_agent(agent2_type, PLAYER_O)
+    results = simulate_match(agent1, agent2, num_games)
+    return jsonify(results)
 
 if __name__ == "__main__":
     app.run(debug=True)
