@@ -26,6 +26,9 @@ def play():
     game = TicTacToe(board=board, current_player=current_player)
     game.make_move(data.get("move"))
     over=game.is_game_over()
+    over=game.is_game_over()
+    move_scores = None
+    nodes_explored = None
     if not over:
         agent_type = data.get("agent_type")
         if agent_type:
@@ -33,12 +36,16 @@ def play():
             agent = create_agent(agent_type, agent_player)
             agent_move = agent.get_move(game)
             game.make_move(agent_move)
+            move_scores = getattr(agent, 'last_move_scores', None)
+            nodes_explored = getattr(agent, 'nodes_explored', None)
     over=game.is_game_over()
-    return jsonify({"board": game.board, 
-                    "current_player": game.current_player,
-                    "winner": game.check_winner(), 
-                    "available_moves": game.get_available_moves(),
-                    "game_over": over})
+    return jsonify({"board": game.board,
+                "current_player": game.current_player,
+                "winner": game.check_winner(),
+                "available_moves": game.get_available_moves(),
+                "game_over": over,
+                "move_scores": move_scores,
+                "nodes_explored": nodes_explored})
 
 @app.route("/ai_move", methods=["POST"])
 def ai_move():

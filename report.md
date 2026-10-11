@@ -10,39 +10,38 @@
 ---
 
 ## Student Information
-- **Name:** [Write your Name here]
-- **MMDT ID:** [Write your MMDT ID here]
-
+- **Name:** Khin Yadanar Aung
+- **MMDT ID:** MMDT002
 ---
 
 ## Section 1: AI Agent Configuration
-- **Primary AI Algorithm:** [Write your primary AI algorithm here, e.g., Minimax with Alpha-Beta Pruning]
-- **Pruning Technique:** [Write your pruning technique here, e.g., Alpha-Beta Pruning with Depth Penalty]
-- **Heuristic Strategy:** [Write your heuristic strategy here, e.g., Win > Block > Center > Corners > Edges]
+- **Primary AI Algorithm:**  Minimax with Alpha-Beta Pruning
+- **Pruning Technique:**  Alpha-Beta Pruning with Depth Penalty 
+- **Heuristic Strategy:**  Win > Block > Center > Corners > Edges
 
 ---
 
 ## Section 2: Complexity & Search Tree Analysis
-- **Maximum Search Depth (Empty 3x3 Board):** [Write maximum search depth here, e.g., 9]
-- **Total Possible Board States:** [Write total number of possible legal reachable board states here]
-- **Unbeatable Minimax Guarantee:** [Write Yes or No here]
+- **Maximum Search Depth (Empty 3x3 Board):** 549,946
+- **Total Possible Board States:** 10
+- **Unbeatable Minimax Guarantee:** Yes
 
 ---
 
 ## Section 3: Local Verification & Agent Checklist
 *Check the algorithms, agents, and features you successfully ran and verified on your local development server by placing an `x` in the brackets (e.g., `[x]`):*
-- [ ] Minimax Search Algorithm with Depth Penalty
-- [ ] Alpha-Beta Pruning Optimization
-- [ ] Rule-Based Heuristic Agent
-- [ ] Uniform Random Baseline Agent
-- [ ] Interactive Web Visualizer with Move Matrix & Metrics
-- [ ] Bot vs Bot Simulation Benchmark
+- [x] Minimax Search Algorithm with Depth Penalty
+- [x] Alpha-Beta Pruning Optimization
+- [x] Rule-Based Heuristic Agent
+- [x] Uniform Random Baseline Agent
+- [x] Interactive Web Visualizer with Move Matrix & Metrics
+- [x] Bot vs Bot Simulation Benchmark
 
 ---
 
 ## Section 4: Deployed and Presentation Information
-- **Deployment Platform:** [Write your deployment platform here, e.g., Render]
-- **Live Deployment URL:** [Provide your live deployment site URL here]
+- **Deployment Platform:** Render
+- **Live Deployment URL:** https://ttt-mmdt002.onrender.com
 - **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
 
 ---

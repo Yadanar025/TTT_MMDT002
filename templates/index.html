@@ -70,6 +70,7 @@
     <input id="numGames" type="number" value="50">
     <button id="runBenchmark">Run Benchmark</button>
     <p id="benchmarkResult"></p>
+    <pre id="stats"></pre>
     <div id="board">
         <button data-index="0"></button>
         <button data-index="1"></button>
@@ -144,6 +145,10 @@
                 currentPlayer = data.current_player;
                 gameOver = data.game_over;
                 redraw();
+                if (data.move_scores) {
+                document.getElementById("stats").textContent =
+                "Nodes explored: " + data.nodes_explored + "\nMove scores: " + JSON.stringify(data.move_scores);
+                }
                 if (gameOver) {
                     alert(data.winner ? data.winner + " wins!" : "Draw!");
                 }
