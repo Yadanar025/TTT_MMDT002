@@ -22,11 +22,11 @@ class HeuristicAgent:
             if won:
                 return move
         for move in game.get_available_moves():
-                game.board[move] = self.opponent_mark
-                won = (game.check_winner()==self.opponent_mark)
-                if won:
-                    game.board[move] = EMPTY
-                    return move
+            game.board[move] = self.opponent_mark
+            won = (game.check_winner()==self.opponent_mark)
+            game.board[move] = EMPTY
+            if won:
+                return move
 
 class MinimaxAgent:
     def __init__(self, player=PLAYER_O,use_alpha_beta=True):
