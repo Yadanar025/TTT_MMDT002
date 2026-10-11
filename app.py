@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import json
 from game import TicTacToe, PLAYER_X, PLAYER_O
-from agent import RandomAgent, HeuristicAgent, MinimaxAgent
+from agent import RandomAgent, HeuristicAgent, MinimaxAgent, simulate_match
 
 app = Flask(__name__)
 

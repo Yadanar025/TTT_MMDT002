@@ -25,6 +25,19 @@
     <option value="minimax">Minimax</option>
 </select>
 <button id="startAiVsAi">Start AI vs AI</button>
+    <select id="benchAgent1">
+    <option value="random">Random</option>
+    <option value="heuristic">Heuristic</option>
+    <option value="minimax">Minimax</option>
+    </select>
+    <select id="benchAgent2">
+        <option value="random">Random</option>
+        <option value="heuristic">Heuristic</option>
+        <option value="minimax">Minimax</option>
+    </select>
+    <input id="numGames" type="number" value="50">
+    <button id="runBenchmark">Run Benchmark</button>
+    <p id="benchmarkResult"></p>
     <div id="board">
         <button data-index="0"></button>
         <button data-index="1"></button>
@@ -107,6 +120,22 @@
     });
 
     redraw();
+    document.getElementById("runBenchmark").addEventListener("click", function() {
+    fetch("/benchmark", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            agent1_type: document.getElementById("benchAgent1").value,
+            agent2_type: document.getElementById("benchAgent2").value,
+            num_games: parseInt(document.getElementById("numGames").value)
+        })
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+        document.getElementById("benchmarkResult").textContent =
+            "Agent1 wins: " + data.agent1_wins + ", Agent2 wins: " + data.agent2_wins + ", Draws: " + data.draws;
+    });
+    });
 </script>
         
     </div>
